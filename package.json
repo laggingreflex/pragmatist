@@ -115,8 +115,10 @@
     "babel-preset-stage-0": "^6.5.0",
     "bundle-dependencies": "^1.0.2",
     "canonical": "^3.2.1",
+    "cpr": "^2.0.0",
     "create-index": "^0.1.3",
-    "jsonlint": "^1.6.2"
+    "jsonlint": "^1.6.2",
+    "rimraf": "^2.5.4"
   },
   "keywords": [
     "gulp",
@@ -134,14 +136,14 @@
     "url": "https://github.com/gajus/pragmatist"
   },
   "scripts": {
-    "build": "rm -fr ./dist; cp -r ./src ./dist; babel --presets es2015,stage-0 ./src --out-dir ./dist --source-maps",
+    "build": "rimraf ./dist && cpr ./src ./dist && babel --presets es2015,stage-0 ./src --out-dir ./dist --source-maps",
     "bundle-dependencies": "bundle-dependencies",
-    "bundle-publish": "bundle-dependencies update --exclude canonical chokidar node-notifier; git commit -m 'Bundled dependencies.' ./package.json; git push; BUNDLED_DEPENDENCIES=$(bundle-dependencies list-bundled-dependencies); rm -fr ./node_modules; npm install --silent --production $BUNDLED_DEPENDENCIES; npm dedupe; npm prune; npm publish; npm install --silent;",
+    "bundle-publish": "bundle-dependencies update --exclude canonical chokidar node-notifier && git commit -m 'Bundled dependencies.' ./package.json && git push && BUNDLED_DEPENDENCIES=$(bundle-dependencies list-bundled-dependencies) && rm -fr ./node_modules && npm install --silent --production $BUNDLED_DEPENDENCIES && npm dedupe && npm prune && npm publish && npm install --silent",
     "create-index": "create-index ./src --update-index",
     "format-json": "jsonlint --sort-keys --in-place --indent '    '",
-    "format-json-config": "npm run format-json ./package.json; npm run format-json ./src/babelrc.json",
+    "format-json-config": "npm run format-json ./package.json && npm run format-json ./src/babelrc.json",
     "lint": "canonical lint ./src/",
-    "watch-build": "npm run build; babel --presets es2015,stage-0 --watch ./src --out-dir ./dist --source-maps"
+    "watch-build": "npm run build && babel --presets es2015,stage-0 --watch ./src --out-dir ./dist --source-maps"
   },
   "version": "3.0.24"
 }
