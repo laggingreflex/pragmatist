@@ -24,6 +24,11 @@ argv = yargs
         'type-assertions': {
             description: 'Inlines runtime type assertions for the type annotations.',
             type: 'boolean'
+        },
+        'watch': {
+            alias: 'w',
+            description: 'Runs tasks in watch mode.',
+            type: 'boolean'
         }
     })
     .argv;
@@ -46,7 +51,11 @@ Promise
     /* eslint-enable lodash3/prefer-lodash-method */
         let executeTaskName;
 
-        executeTaskName = 'pragmatist:' + taskName;
+        if (argv.watch && taskName !== 'watch') {
+            executeTaskName = 'pragmatist:watch-' + taskName;
+        } else {
+            executeTaskName = 'pragmatist:' + taskName;
+        }
 
         if (_.indexOf(knownTaskNames, executeTaskName) === -1) {
             throw new Error('"' + executeTaskName + '" task does not exist.');
