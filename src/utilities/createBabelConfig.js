@@ -53,6 +53,7 @@ export default (config) => {
                 require('babel-plugin-transform-es2015-block-scoping'),
                 require('babel-plugin-transform-es2015-typeof-symbol'),
                 require('babel-plugin-transform-es2015-modules-commonjs'),
+                require('babel-plugin-transform-object-rest-spread'),
                 [
                     require('babel-plugin-transform-regenerator'),
                     {
@@ -68,6 +69,8 @@ export default (config) => {
     } else {
         babelConfig.plugins.push(require.resolve('babel-plugin-transform-es2015-modules-commonjs'));
         babelConfig.plugins.push(require.resolve('babel-plugin-transform-es2015-parameters'));
+        babelConfig.plugins.push(require.resolve('babel-plugin-transform-es2015-destructuring'));
+        babelConfig.plugins.push(require.resolve('babel-plugin-transform-object-rest-spread'));
     }
 
     return babelConfig;
